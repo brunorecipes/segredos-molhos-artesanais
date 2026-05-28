@@ -1,0 +1,9 @@
+.DS_Store
+preview/
+preview-*/
+tmp-*/
+referencia-*/
+*.pdf
+assets-molhos/
+carrosseis-prontos/
+pagina-vendas-molhos/preview/
