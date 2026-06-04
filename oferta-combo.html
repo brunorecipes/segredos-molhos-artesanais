@@ -182,6 +182,52 @@
         color: var(--muted);
       }
 
+      .product-shot {
+        margin-top: 16px;
+        overflow: hidden;
+        border-radius: 8px;
+        border: 1px solid rgba(91, 61, 43, 0.18);
+        background: #1c120e;
+        box-shadow: 0 18px 42px rgba(40, 20, 10, 0.2);
+      }
+
+      .product-shot img,
+      .bonus-visual img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+      .bonus-visual {
+        display: grid;
+        grid-template-columns: 124px minmax(0, 1fr);
+        gap: 14px;
+        align-items: center;
+        margin-top: 18px;
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid rgba(96, 125, 67, 0.25);
+        background: #f7f1e8;
+      }
+
+      .bonus-visual img {
+        border-radius: 6px;
+        border: 1px solid rgba(91, 61, 43, 0.12);
+      }
+
+      .bonus-visual strong {
+        display: block;
+        color: var(--ink);
+        font-size: 0.96rem;
+      }
+
+      .bonus-visual span {
+        display: block;
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: 0.88rem;
+      }
+
       .price-row {
         display: flex;
         flex-wrap: wrap;
@@ -291,6 +337,10 @@
         .choice {
           padding: 20px;
         }
+
+        .bonus-visual {
+          grid-template-columns: 1fr;
+        }
       }
     </style>
   </head>
@@ -315,6 +365,9 @@
             <p>
               Leve Feijoada, Geleias e Molhos em uma única compra, com todos os bônus já inclusos em cada material.
             </p>
+            <div class="product-shot">
+              <img src="assets/combo-capa.png" alt="Coleção Segredos Artesanais com os ebooks de Feijoada, Geleias e Molhos" />
+            </div>
             <div class="price-row">
               <span class="old">R$201,77</span>
               <span class="price">R$127</span>
@@ -325,6 +378,13 @@
               <li><span>✓</span>Segredos dos Molhos Artesanais</li>
               <li><span>✓</span>Planilhas e bônus internos dos ebooks</li>
             </ul>
+            <div class="bonus-visual">
+              <img src="assets/planilha-capa.png" alt="Planilha de Custos, Produção e Vendas" />
+              <div>
+                <strong>Bônus incluso: Planilha de Custos, Produção e Vendas</strong>
+                <span>Calcule custo real, margem, preço de venda e acompanhe seus resultados com mais segurança.</span>
+              </div>
+            </div>
             <a id="combo-link" class="btn" href="#">Quero a coleção completa</a>
             <p class="fineprint">Economia de R$74,77 em relação aos produtos separados.</p>
             <p id="combo-warning" class="warning">
