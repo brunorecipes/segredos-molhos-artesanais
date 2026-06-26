@@ -672,5 +672,58 @@
     <footer class="footer">
       <p>© 2026 Bruno Cavalcanti. Todos os direitos reservados. Contato: brunorecipes@gmail.com</p>
     </footer>
+    <script>
+      (function () {
+        var trackingKeys = [
+          "utm_source",
+          "utm_medium",
+          "utm_campaign",
+          "utm_content",
+          "utm_term",
+          "utm_id",
+          "fbclid",
+          "gclid",
+          "campaign_id",
+          "adset_id",
+          "ad_id"
+        ];
+        var storageKey = "bruno_recipes_tracking";
+
+        function getTracking() {
+          var params = new URLSearchParams(window.location.search);
+          var saved = {};
+          try {
+            saved = JSON.parse(sessionStorage.getItem(storageKey) || "{}");
+          } catch (error) {
+            saved = {};
+          }
+          trackingKeys.forEach(function (key) {
+            var value = params.get(key);
+            if (value) saved[key] = value;
+          });
+          if (Object.keys(saved).length) {
+            sessionStorage.setItem(storageKey, JSON.stringify(saved));
+          }
+          return saved;
+        }
+
+        function decorateUrl(rawUrl, tracking) {
+          var url = new URL(rawUrl, window.location.href);
+          Object.keys(tracking).forEach(function (key) {
+            if (!url.searchParams.has(key)) {
+              url.searchParams.set(key, tracking[key]);
+            }
+          });
+          return url.toString();
+        }
+
+        var tracking = getTracking();
+        document.querySelectorAll("a[href]").forEach(function (link) {
+          var href = link.getAttribute("href");
+          if (!href || (href.indexOf("oferta-combo.html") === -1 && href.indexOf("pay.hotmart.com") === -1)) return;
+          link.href = decorateUrl(href, tracking);
+        });
+      })();
+    </script>
   </body>
 </html>

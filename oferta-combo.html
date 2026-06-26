@@ -440,6 +440,59 @@
         }
       };
 
+      const TRACKING_KEYS = [
+        "utm_source",
+        "utm_medium",
+        "utm_campaign",
+        "utm_content",
+        "utm_term",
+        "utm_id",
+        "fbclid",
+        "gclid",
+        "campaign_id",
+        "adset_id",
+        "ad_id"
+      ];
+      const TRACKING_STORAGE_KEY = "bruno_recipes_tracking";
+
+      function getStoredTracking() {
+        try {
+          return JSON.parse(sessionStorage.getItem(TRACKING_STORAGE_KEY) || "{}");
+        } catch (error) {
+          return {};
+        }
+      }
+
+      function saveTrackingFromUrl() {
+        const currentParams = new URLSearchParams(window.location.search);
+        const tracking = getStoredTracking();
+        TRACKING_KEYS.forEach(function (key) {
+          const value = currentParams.get(key);
+          if (value) tracking[key] = value;
+        });
+        if (Object.keys(tracking).length) {
+          sessionStorage.setItem(TRACKING_STORAGE_KEY, JSON.stringify(tracking));
+        }
+        return tracking;
+      }
+
+      function withTracking(url) {
+        const tracking = saveTrackingFromUrl();
+        const decoratedUrl = new URL(url, window.location.href);
+        Object.keys(tracking).forEach(function (key) {
+          if (!decoratedUrl.searchParams.has(key)) {
+            decoratedUrl.searchParams.set(key, tracking[key]);
+          }
+        });
+        if (!decoratedUrl.searchParams.has("src")) {
+          decoratedUrl.searchParams.set(
+            "src",
+            tracking.ad_id || tracking.utm_content || tracking.utm_campaign || productKey
+          );
+        }
+        return decoratedUrl.toString();
+      }
+
       const params = new URLSearchParams(window.location.search);
       const productKey = PRODUCTS[params.get("produto")] ? params.get("produto") : "molhos";
       const product = PRODUCTS[productKey];
@@ -462,7 +515,7 @@
           return;
         }
 
-        link.href = url;
+        link.href = withTracking(url);
         link.addEventListener("click", function () {
           if (window.fbq) fbq("trackCustom", eventName, { produto_origem: productKey });
         });
